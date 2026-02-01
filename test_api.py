@@ -5,8 +5,9 @@ import allure
 
 BASE_URL = "https://dummyjson.com/products"
 
-@pytest.mark.feature("api-testing")
-def test_scenario_1_get_all_products():
+@allure.feature("API Testing")
+@allure.story("Get all products")
+def test_get_all_products():
     response = requests.get(BASE_URL)
 
     # Validate request was successful
@@ -20,8 +21,9 @@ def test_scenario_1_get_all_products():
     odd_id_titles = [p["title"] for p in products if p["id"] % 2 == 1]
     print("Products with odd IDs:", odd_id_titles)
 
-@pytest.mark.feature("api-testing")
-def test_scenario_2_create_product():
+@allure.feature("API Testing")
+@allure.story("Create a new product")
+def test_create_product():
     new_product = {
         "title": "Test Product",
         "description": "This is a test product",
@@ -38,8 +40,9 @@ def test_scenario_2_create_product():
         assert data.get(key) == new_product[key], f"Expected {key}='{new_product[key]}', got {data.get(key)}"
         assert data.get("id") is not None, "Expected an 'id' in the response"
 
-@pytest.mark.feature("api-testing")
-def test_scenario_3_update_third_product():
+@allure.feature("API Testing")
+@allure.story("Update third product")
+def test_update_third_product():
     product_id = 3
 
     # Get current product data
@@ -65,9 +68,10 @@ def test_scenario_3_update_third_product():
             assert original_data[key] == updated_data[
                 key], f"Expected {key}='{original_data[key]}', got {updated_data[key]}"
 
-@pytest.mark.feature("api-testing")
+@allure.feature("API Testing")
+@allure.story("Validate response time with delay parameter")
 @pytest.mark.parametrize("delay", [0, 5000, 6000])
-def test_scenario_4_delay_response_time(delay):
+def test_delay_response_time(delay):
     start_time = time.time()
 
     response = requests.get(
